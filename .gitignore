@@ -1,0 +1,15 @@
+# tool scratch
+.playwright-mcp/
+.impeccable/
+__pycache__/
+*.pyc
+
+# screenshots captured during review — regenerate, don't version
+/*.png
+
+# local server / editor state
+.DS_Store
+Thumbs.db
+
+# abandoned early build, superseded by work-page/
+mock/

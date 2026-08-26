@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Project — Anika Williams</title>
+<meta name="robots" content="noindex">
+<meta name="description" content="Project detail — Anika Williams.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23F7F7F7'/%3E%3Ctext x='16' y='22' font-family='Helvetica,Arial' font-size='16' font-weight='200' text-anchor='middle' fill='%23020202'%3EA%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@200;500;700;900&display=swap">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<a class="skip" href="#doc">Skip to content</a>
+
+<header class="masthead">
+  <a class="wordmark" href="index.html"><img src="assets/anika-williams-handwritten.svg" alt="Anika Williams" width="610" height="56" decoding="async"></a>
+  <nav class="mainnav" aria-label="Primary">
+    <a href="about.html">About</a>
+    <a href="work.html">Work</a>
+    <a href="more.html">More</a>
+  </nav>
+</header>
+
+<main class="sheet" id="doc" tabindex="-1">
+  <p class="meta" id="meta">Project</p>
+  <h1 id="title">Project</h1>
+  <p>This is the case-study page. It is where the work actually earns a
+     decision: the problem, the approach, the calls that cost something,
+     what the testing showed, and which parts were yours.</p>
+  <p>A grid gets someone to click. This page is what makes them keep reading,
+     so it wants the outcome and the reasoning rather than a list of tools.</p>
+  <a class="back" href="work.html">&larr; Back to work</a>
+</main>
+
+<footer class="foot">
+  <p>&copy; 2026 Anika Williams &nbsp;·&nbsp; <a href="mailto:williams.anika@yahoo.com">williams.anika@yahoo.com</a></p>
+</footer>
+
+<script>
+  /* NOT progressive enhancement. Without JS this page cannot know which
+     project it is, so every ?p= value renders the same generic shell — which
+     is why the page carries a noindex. The fix is static pages per project;
+     this is a mock stand-in until those exist. */
+  (function () {
+    var NAMES = {
+      'sheet-metal-chair':  ['Sheet Metal Chair', 'Furniture'],
+      'deployable-chair':   ['Deployable Chair', 'Thesis'],
+      'wave-bend-chair':    ['Wave Bend Chair', 'Material study'],
+      'g-street':           ['G Street Installation', 'Urban research'],
+      'tensile-casting':    ['Tensile Textile Casting', 'Material study'],
+      'magazine-holder':    ['Magazine Holder', 'Object'],
+      'amplifier-case':     ['Amplifier Case', 'Product'],
+      'san-giovanni':       ['San Giovanni Lighting', 'Lighting'],
+      'textile-formwork':   ['Textile Formwork', 'Material study'],
+      'lattice':            ['Lattice', 'Computational'],
+      'butterfly-lamp':     ['Butterfly Lamp', 'Lighting'],
+      'origami':            ['Origami Studies', 'Folding']
+    };
+    var slug = new URLSearchParams(location.search).get('p');
+    var hit = NAMES[slug];
+    if (!hit) {
+      /* Unknown or missing slug: say so, rather than leaving a generic
+         "Project" shell that reads as a real page. */
+      document.getElementById('title').textContent = 'That project doesn’t exist.';
+      document.getElementById('meta').textContent = 'Not found';
+      var lede = document.querySelector('.sheet p');
+      if (lede) lede.textContent =
+        'The link may be out of date. The work index lists everything that is here.';
+      document.title = 'Not found — Anika Williams';
+      return;
+    }
+    document.getElementById('title').textContent = hit[0];
+    document.getElementById('meta').textContent = hit[1];
+    document.title = hit[0] + ' — Anika Williams';
+  })();
+</script>
+
+</body>
+</html>
