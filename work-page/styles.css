@@ -440,7 +440,21 @@ button:focus-visible {
   overflow: hidden;
   background: var(--tile-ground);
 }
-.about-portrait img { width: 100%; height: 100%; object-fit: cover; display: block; }
+/* The photograph is 804x1182 (0.68) going into a square slot, so cover crops
+   top and bottom. The face sits in the upper third, so the crop window is
+   biased upward — a centred crop cuts the top of the head.
+
+   Below the desktop breakpoint the slot goes full-width and stays PORTRAIT
+   (4:5). It was landscape while the art here was an abstract placeholder,
+   where shape did not matter; against a real portrait a 4:3 frame threw away
+   49% of the image height. 4:5 costs about 15%. */
+.about-portrait img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 22%;
+  display: block;
+}
 
 .about-intro { grid-column: 4 / span 2; }
 
@@ -556,6 +570,18 @@ button:focus-visible {
 .about-triple ul { margin: 0; padding: 0; list-style: none; }
 .about-triple li { margin-bottom: 4px; }
 
+/* Skills carry a discipline plus the tools used for it. The tools sit on
+   their own line in the muted ink so the discipline stays the thing you
+   read first; sizes come from the existing scale rather than new values.
+   Only Skills uses this, so the other two columns are unaffected. */
+.about-triple .tools {
+  display: block;
+  font-size: 14px;
+  line-height: 21px;
+  color: var(--ink-idle);
+}
+.about-triple li:has(.tools) { margin-bottom: 14px; }
+
 .about-contact { grid-column: 1 / -1; margin: 72px 0 0; }
 .about-contact h2 {
   margin: 0 0 14px;
@@ -605,12 +631,12 @@ button:focus-visible {
 }
 @media (max-width: 900px) {
   .about { padding-top: 48px; }
-  .about-portrait { grid-column: 1 / -1; aspect-ratio: 16 / 10; }
+  .about-portrait { grid-column: 1 / -1; aspect-ratio: 4 / 5; }
   .about-intro    { grid-column: 1 / -1; margin-top: 30px; }
 }
 @media (max-width: 639.98px) {
   .about { padding-top: 40px; }
-  .about-portrait { aspect-ratio: 4 / 3; }
+  .about-portrait { aspect-ratio: 4 / 5; }
   .about-intro h1 { font-size: 27px; line-height: 34px; }
   .about-strip    { grid-template-columns: 1fr; margin-top: 34px; }
   .about-triple   { grid-template-columns: 1fr; gap: 40px; margin-top: 52px; }
