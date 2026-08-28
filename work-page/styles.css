@@ -333,37 +333,49 @@ button:focus-visible {
 
 .more section { margin-top: 71px; }
 
-/* Each project has its own aligned gallery. The frame ratio varies only when
-   it protects a subject or composition; the cards otherwise crop to a clean
-   shared edge. */
-.more-project > .more-copy { margin-bottom: 40px; }
-.more-gallery {
-  display: grid;
+/* Columns are packed at build time, not by the browser.
+
+   CSS multi-column balanced this badly: 12 unbreakable items whose heights
+   vary 4.3:1, spread over 4 columns, is only ~3 items each — too few to even
+   out. Measured ragged bottoms of 260-550px per wall, worsening to 1141px at
+   3440px wide.
+
+   Every image height is columnWidth / ratio, and all columns share a width,
+   so a column's height is proportional to the sum of 1/ratio of its items.
+   That sum is known before the page is written, so the generator greedily
+   packs each item into the shortest column. The balance then holds at every
+   viewport width rather than being re-guessed per layout.
+
+   Column counts step 4 -> 2 -> 1 so the flex rows always divide evenly; at
+   3 the fourth column would wrap alone as an orphan. */
+.more-wall {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 20px;
+  margin: 40px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.more-wall .col {
+  flex: 1 1 calc(25% - 15px);
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
   gap: 20px;
+  margin-bottom: 20px;
 }
-.more-gallery--two   { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-.more-gallery--three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-.more-gallery--four  { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-.more-media {
-  margin: 0;
-  overflow: hidden;
-  background: var(--tile-ground);
-}
-.more-media img {
+.more-wall img {
   display: block;
   width: 100%;
-  height: 100%;
-  aspect-ratio: 4 / 3;
-  object-fit: cover;
-  object-position: center;
+  height: auto;            /* load-bearing: width/height attrs would pin it */
   background: var(--tile-ground);
 }
-.more-media--landscape img { aspect-ratio: 4 / 3; }
-.more-media--portrait img  { aspect-ratio: 4 / 5; }
-.more-media--tall img      { aspect-ratio: 2 / 3; }
-.more-media--square img    { aspect-ratio: 1; }
-.more-media--wide img      { aspect-ratio: 16 / 9; }
-.more-media--contain img {
+.more-wall img.more-fill {
+  aspect-ratio: var(--frame);
+  object-fit: cover;
+  object-position: center;
+}
+.more-wall img.more-fill--contain {
   object-fit: contain;
   background: #FFF;
 }
@@ -372,18 +384,18 @@ button:focus-visible {
   .more-copy { margin-left: 80px; }
 }
 @media (max-width: 899.98px) {
-  .more-gallery--four { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .more-wall .col { flex-basis: calc(50% - 10px); }
   .more-copy { margin-left: 0; }
 }
 @media (max-width: 639.98px) {
   .more { padding-top: 36px; }
-  .more-project > .more-copy { margin-bottom: 28px; }
+  .more-wall { margin-top: 28px; }
   .more section { margin-top: 48px; }
   .more h1 { font-size: 38px; line-height: 46px; }
   .more h2 { font-size: 27px; line-height: 34px; }
-  .more-gallery--two,
-  .more-gallery--three,
-  .more-gallery--four { grid-template-columns: 1fr; }
+}
+@media (max-width: 479.98px) {
+  .more-wall .col { flex-basis: 100%; }
 }
 
 /* ---------- home ----------
@@ -742,12 +754,12 @@ button:focus-visible {
   .sheet { padding: 0; max-width: none; }
   .foot { padding: 12pt 0 0; }
 
-  /* the galleries are decorative; drop them as .about-strip is dropped, and take the
+  /* the wall is decorative; drop it as .about-strip is dropped, and take the
      screen indent off the copy so it does not print inset */
   .more { padding: 0; max-width: none; }
   .more-copy { margin-left: 0; }
   .more p { max-width: none; }
-  .more-gallery { display: none; }
+  .more-wall { display: none; }
   .more section { margin-top: 18pt; }
 }
 
@@ -768,7 +780,7 @@ button:focus-visible {
   /* images are exempt from forced-color-adjust, so a pale or failed one
      becomes an invisible box; a border keeps every frame readable, matching
      what .tile a already does */
-  .more-media img { border: 1px solid CanvasText; }
+  .more-wall img { border: 1px solid CanvasText; }
 
   /* HCM flattens background and box-shadow, so the chip vanishes; a real
      border survives and keeps placeholder rows distinguishable. */
