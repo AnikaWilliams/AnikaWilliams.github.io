@@ -198,6 +198,14 @@ button:focus-visible {
   transition: transform 0.62s var(--ease);
 }
 
+/* Selected source images are portrait or square. These crop positions keep
+   the finished object in the measured 1.403:1 tile frame without changing
+   the grid geometry. */
+.tile img.hero-sheet-metal-chair { object-position: 50% 78%; }
+.tile img.hero-deployable-chair  { object-position: 50% 72%; }
+.tile img.hero-amplifier-case    { object-position: 50% 62%; }
+.tile img.hero-san-giovanni      { object-position: 50% 55%; }
+
 .tile figure:hover img,
 .tile a:focus-visible img { transform: scale(1.045); }
 
